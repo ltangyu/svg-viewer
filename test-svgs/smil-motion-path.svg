@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <path id="orbit" d="M100,100 m-60,0 a60,60 0 1,0 120,0 a60,60 0 1,0 -120,0"
+        fill="none" stroke="#ccc" stroke-width="1" stroke-dasharray="2 3" />
+  <circle r="8" fill="#000">
+    <animateMotion dur="3s" repeatCount="indefinite">
+      <mpath href="#orbit" />
+    </animateMotion>
+  </circle>
+</svg>

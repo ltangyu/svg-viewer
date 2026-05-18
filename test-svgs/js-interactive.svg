@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <rect x="0" y="0" width="200" height="200" fill="#fff" />
+  <circle id="dot" cx="100" cy="100" r="20" fill="#000" />
+  <text id="counter" x="100" y="170" font-family="Inter, sans-serif" font-size="12"
+        fill="#6b6b6b" text-anchor="middle">click count: 0</text>
+  <script>
+  <![CDATA[
+    (function() {
+      var dot = document.getElementById('dot');
+      var counter = document.getElementById('counter');
+      var n = 0;
+      var t = 0;
+      // Pulse loop — proves JS animation runs
+      setInterval(function() {
+        t += 0.1;
+        var r = 20 + Math.sin(t) * 6;
+        dot.setAttribute('r', r);
+      }, 30);
+      // Click counter — proves event handlers work
+      dot.addEventListener('click', function() {
+        n++;
+        counter.textContent = 'click count: ' + n;
+      });
+    })();
+  ]]>
+  </script>
+</svg>

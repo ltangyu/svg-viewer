@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <!-- Rounded black background — Windows/macOS app icon convention -->
+  <rect width="1024" height="1024" rx="180" ry="180" fill="#000000"/>
+
+  <!-- Phosphor "file-svg" icon, centered (source viewBox 256×256 scaled 2.5×, placed at 192,192) -->
+  <g transform="translate(192 192) scale(2.5)" fill="none" stroke="#ffffff"
+     stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
+    <!-- S glyph -->
+    <path d="M75.9,153.6s-29.43-7.78-31.8,11,38.43,10.12,35.78,30.72c-2.47,19.16-31.78,11-31.78,11"/>
+    <!-- File outline (without bottom) -->
+    <path d="M48,112V40a8,8,0,0,1,8-8h96l56,56v24"/>
+    <!-- Corner fold -->
+    <polyline points="152 32 152 88 208 88"/>
+    <!-- V glyph -->
+    <polyline points="104 152 124 208 144 152"/>
+    <!-- G glyph -->
+    <path d="M200,184h8v16.87A22.12,22.12,0,0,1,192,208c-13.25,0-24-12.54-24-28s10.75-28,24-28a21.28,21.28,0,0,1,12,3.75"/>
+  </g>
+</svg>
