@@ -8,17 +8,14 @@ async function onMaximize() { await win.toggleMaximize() }
 async function onClose() { await win.close() }
 
 /**
- * Manual fallback for window dragging. Tauri's `data-tauri-drag-region`
- * is also set on the titlebar, but on some WebView2 builds the auto-injected
- * listener doesn't fire reliably through nested elements. This handler
- * guarantees drag works by calling `startDragging()` directly.
+ * Manual drag handler — `data-tauri-drag-region` works too, but having
+ * an explicit handler on the titlebar element guarantees drag fires even
+ * when the underlying SVG glyph or text spans intercept events.
  */
 async function onTitlebarMouseDown(e: MouseEvent) {
   if (e.button !== 0) return
   const target = e.target as HTMLElement | null
-  // Don't start drag when clicking on the window-control buttons
   if (target?.closest('.controls')) return
-  // Double-click on titlebar toggles maximize (native window behaviour)
   if (e.detail === 2) {
     await win.toggleMaximize()
     return
