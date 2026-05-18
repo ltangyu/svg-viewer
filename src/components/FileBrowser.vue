@@ -159,8 +159,9 @@ onUnmounted(() => window.removeEventListener('keydown', handleKeydown))
 <style scoped>
 .browser {
   display: flex;
+  flex: 1;
+  min-height: 0;
   width: 100%;
-  height: 100%;
   overflow: hidden;
   background: var(--bg-block);
 }

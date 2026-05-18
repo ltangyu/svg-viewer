@@ -59,7 +59,7 @@ async function openDirectory(dir: string) {
 
 <template>
   <div class="landing">
-    <div class="landing-card glass-box">
+    <div class="landing-card">
       <div class="landing-icon">
         <!-- Phosphor file-svg brand glyph (matches app icon) -->
         <svg width="56" height="56" viewBox="0 0 256 256" fill="none" stroke="currentColor"
@@ -104,9 +104,9 @@ async function openDirectory(dir: string) {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100%;
-  background: var(--bg-shell);
+  flex: 1;
+  min-height: 0;
+  background: transparent;
 }
 
 .landing-card {
@@ -114,11 +114,12 @@ async function openDirectory(dir: string) {
   flex-direction: column;
   align-items: center;
   gap: var(--gap-3);
-  padding: 48px 56px;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-modal);
+  padding: 40px 48px;
+  border-radius: var(--radius);
+  background: var(--bg-block);
+  border: 0.5px solid var(--border-medium);
   text-align: center;
-  max-width: 380px;
+  max-width: 360px;
 }
 
 .landing-icon {
@@ -166,6 +167,6 @@ async function openDirectory(dir: string) {
   gap: var(--gap-2);
   margin: 0;
   font-size: var(--text-base);
-  color: var(--bg-danger-btn);
+  color: var(--text-primary);
 }
 </style>

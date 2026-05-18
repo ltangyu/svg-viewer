@@ -6,6 +6,8 @@ import type { SvgFileEntry, ViewState } from './types'
 import { scanSvgFiles, saveLastDir } from './composables/useFileSystem'
 import LandingPage from './components/LandingPage.vue'
 import FileBrowser from './components/FileBrowser.vue'
+import AppShell from './components/layout/AppShell.vue'
+import WindowControls from './components/layout/WindowControls.vue'
 
 const view = ref<ViewState>('landing')
 const files = ref<SvgFileEntry[]>([])
@@ -66,16 +68,19 @@ onMounted(async () => {
 </script>
 
 <template>
-  <LandingPage
-    v-if="view === 'landing'"
-    @folder-opened="handleFolderOpened"
-  />
-  <FileBrowser
-    v-else
-    :files="files"
-    :current-dir="currentDir"
-    :initial-file-path="initialFilePath"
-    @change-folder="handleChangeFolder"
-    @folder-opened="handleFolderOpened"
-  />
+  <AppShell>
+    <WindowControls />
+    <LandingPage
+      v-if="view === 'landing'"
+      @folder-opened="handleFolderOpened"
+    />
+    <FileBrowser
+      v-else
+      :files="files"
+      :current-dir="currentDir"
+      :initial-file-path="initialFilePath"
+      @change-folder="handleChangeFolder"
+      @folder-opened="handleFolderOpened"
+    />
+  </AppShell>
 </template>
