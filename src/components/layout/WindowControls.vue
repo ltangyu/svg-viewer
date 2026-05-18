@@ -6,24 +6,46 @@ const win = getCurrentWindow()
 async function onMinimize() { await win.minimize() }
 async function onMaximize() { await win.toggleMaximize() }
 async function onClose() { await win.close() }
+
+/**
+ * Manual fallback for window dragging. Tauri's `data-tauri-drag-region`
+ * is also set on the titlebar, but on some WebView2 builds the auto-injected
+ * listener doesn't fire reliably through nested elements. This handler
+ * guarantees drag works by calling `startDragging()` directly.
+ */
+async function onTitlebarMouseDown(e: MouseEvent) {
+  if (e.button !== 0) return
+  const target = e.target as HTMLElement | null
+  // Don't start drag when clicking on the window-control buttons
+  if (target?.closest('.controls')) return
+  // Double-click on titlebar toggles maximize (native window behaviour)
+  if (e.detail === 2) {
+    await win.toggleMaximize()
+    return
+  }
+  await win.startDragging()
+}
 </script>
 
 <template>
-  <header class="titlebar" data-tauri-drag-region>
+  <header
+    class="titlebar"
+    data-tauri-drag-region
+    @mousedown="onTitlebarMouseDown"
+  >
     <div class="title-group" data-tauri-drag-region>
       <svg class="brand-glyph" width="14" height="14" viewBox="0 0 256 256" fill="none"
-           stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"
-           data-tauri-drag-region>
+           stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round">
         <path d="M75.9,153.6s-29.43-7.78-31.8,11,38.43,10.12,35.78,30.72c-2.47,19.16-31.78,11-31.78,11"/>
         <path d="M48,112V40a8,8,0,0,1,8-8h96l56,56v24"/>
         <polyline points="152 32 152 88 208 88"/>
         <polyline points="104 152 124 208 144 152"/>
         <path d="M200,184h8v16.87A22.12,22.12,0,0,1,192,208c-13.25,0-24-12.54-24-28s10.75-28,24-28a21.28,21.28,0,0,1,12,3.75"/>
       </svg>
-      <span class="title-en label-micro" data-tauri-drag-region>SVG VIEWER</span>
+      <span class="title-en label-micro">SVG VIEWER</span>
     </div>
 
-    <div class="controls">
+    <div class="controls" @mousedown.stop>
       <button class="ctrl" type="button" title="Minimize" @click="onMinimize">
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1">
           <line x1="1" y1="5" x2="9" y2="5"/>
@@ -56,15 +78,17 @@ async function onClose() { await win.close() }
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   flex-shrink: 0;
   gap: 12px;
+  cursor: default;
+  user-select: none;
 }
 
 .title-group {
   display: flex;
   align-items: center;
   gap: 8px;
-  pointer-events: none;
   flex: 1;
   min-width: 0;
+  pointer-events: none;  /* let mousedown reach .titlebar for dragging */
 }
 
 .brand-glyph {
