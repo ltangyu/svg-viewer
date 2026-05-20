@@ -104,7 +104,7 @@ function displayName(file: SvgFileEntry): string {
       />
 
       <div v-else-if="errorMsg" class="state-overlay">
-        <div class="state-card">
+        <div class="state-card ii-card">
           <span class="status-dot err"></span>
           <span class="state-msg">{{ errorMsg }}</span>
         </div>
@@ -115,9 +115,9 @@ function displayName(file: SvgFileEntry): string {
       </div>
     </div>
 
-    <!-- Loading Overlay -->
+    <!-- Loading Overlay (skeleton shimmer) -->
     <div v-if="isLoading" class="loading-overlay">
-      <span class="status-dot warn"></span>
+      <span class="loading-skeleton loading-bar"></span>
     </div>
   </main>
 </template>
@@ -191,9 +191,6 @@ function displayName(file: SvgFileEntry): string {
   align-items: center;
   gap: var(--gap-2);
   padding: 10px 16px;
-  border-radius: var(--radius);
-  border: 0.5px solid var(--border-medium);
-  background: var(--bg-block);
   box-shadow: var(--shadow-card);
 }
 
@@ -209,8 +206,15 @@ function displayName(file: SvgFileEntry): string {
 
 .loading-overlay {
   position: absolute;
-  top: calc(var(--titlebar-h) + 12px);
+  top: 12px;
   right: 16px;
   z-index: 10;
+  pointer-events: none;
+}
+
+.loading-bar {
+  width: 88px;
+  height: 4px;
+  border-radius: var(--radius-pill);
 }
 </style>

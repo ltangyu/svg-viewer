@@ -59,7 +59,7 @@ async function openDirectory(dir: string) {
 
 <template>
   <div class="landing">
-    <div class="landing-card">
+    <div class="landing-card ii-card">
       <div class="landing-icon">
         <!-- Phosphor file-svg brand glyph (matches app icon) -->
         <svg width="56" height="56" viewBox="0 0 256 256" fill="none" stroke="currentColor"
@@ -115,9 +115,6 @@ async function openDirectory(dir: string) {
   align-items: center;
   gap: var(--gap-3);
   padding: 40px 48px;
-  border-radius: var(--radius);
-  background: var(--bg-block);
-  border: 0.5px solid var(--border-medium);
   text-align: center;
   max-width: 360px;
 }

@@ -12,6 +12,7 @@
   --bg-titlebar: #fafafa;
   --bg-surface: #f8f9fa;
   --bg-surface-2: #f1f3f5;
+  --bg-surface-3: #fafafa;
   --bg-hover: rgba(0, 0, 0, 0.04);
   --bg-active: rgba(0, 0, 0, 0.06);
   --bg-overlay: rgba(0, 0, 0, 0.35);
@@ -60,7 +61,7 @@
   /* ── Sizing ── */
   --shell-padding: 24px;
   --titlebar-h: 36px;
-  --sidebar-w: 240px;
+  --sidebar-w: 220px;
 
   /* ── ii R11 Status Lights ── 唯一彩色 ── */
   --status-ok: #00ff41;

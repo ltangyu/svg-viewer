@@ -39,6 +39,7 @@ async function onTitlebarMouseDown(e: MouseEvent) {
         <polyline points="104 152 124 208 144 152"/>
         <path d="M200,184h8v16.87A22.12,22.12,0,0,1,192,208c-13.25,0-24-12.54-24-28s10.75-28,24-28a21.28,21.28,0,0,1,12,3.75"/>
       </svg>
+      <span class="title-cn">SVG 檢視器</span>
       <span class="title-en label-micro">SVG VIEWER</span>
     </div>
 
@@ -70,7 +71,7 @@ async function onTitlebarMouseDown(e: MouseEvent) {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 4px 0 14px;
+  padding: 0 8px 0 16px;
   border-bottom: 0.5px solid var(--border-subtle);
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   flex-shrink: 0;
@@ -81,32 +82,39 @@ async function onTitlebarMouseDown(e: MouseEvent) {
 
 .title-group {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  align-items: baseline;
+  gap: 10px;
   flex: 1;
   min-width: 0;
-  pointer-events: none;  /* let mousedown reach .titlebar for dragging */
+  pointer-events: none;
 }
 
 .brand-glyph {
   color: var(--text-primary);
   flex-shrink: 0;
+  align-self: center;
+}
+
+.title-cn {
+  font-size: var(--text-md);
+  color: var(--text-primary);
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
 .title-en {
-  color: var(--text-secondary);
-  letter-spacing: 0.1em;
+  color: var(--text-muted);
 }
 
 .controls {
   display: flex;
-  gap: 2px;
+  gap: 4px;
 }
 
 .ctrl {
   width: 28px;
-  height: 24px;
-  border-radius: var(--radius-sm);
+  height: 28px;
+  border-radius: var(--radius);
   color: var(--text-secondary);
   background: transparent;
   border: none;

@@ -46,9 +46,9 @@ function toggle() {
       <div class="row anim-row" v-if="animTypes.length">
         <span class="label-micro">ANIM</span>
         <span class="anim-tags">
-          <span v-for="t in animTypes" :key="t.label" class="anim-tag">
+          <span v-for="t in animTypes" :key="t.label" class="status-badge">
             <span class="status-dot" :class="t.dot"></span>
-            <span class="anim-label text-mono">{{ t.label }}</span>
+            {{ t.label }}
           </span>
         </span>
       </div>
@@ -69,14 +69,14 @@ function toggle() {
   left: 12px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 8px 12px;
+  gap: var(--gap-1);
+  padding: 10px 12px;
   border-radius: var(--radius);
   box-shadow: var(--shadow-card);
   cursor: pointer;
   z-index: 20;
-  min-width: 160px;
-  transition: all var(--t-fast);
+  min-width: 200px;
+  transition: background-color var(--t-fast), border-color var(--t-fast);
 }
 .info-badge.collapsed {
   flex-direction: row;
@@ -90,7 +90,7 @@ function toggle() {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--gap-3);
+  gap: var(--gap-4);
 }
 
 .value {
@@ -107,17 +107,15 @@ function toggle() {
 .anim-tags {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-}
-.anim-tag {
-  display: inline-flex;
-  align-items: center;
   gap: 4px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
-.anim-label {
-  font-size: var(--text-xs);
-  font-weight: 600;
-  color: var(--text-primary);
+
+.anim-tags :deep(.status-badge) {
+  padding: 1px 8px;
+  font-size: 9px;
+  letter-spacing: 0.06em;
 }
 
 .dot-row {

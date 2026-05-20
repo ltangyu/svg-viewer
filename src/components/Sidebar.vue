@@ -94,12 +94,12 @@ function formatSize(bytes: number): string {
       <div
         v-for="(file, idx) in files"
         :key="file.path"
-        class="file-item"
+        class="list-item file-item"
         :class="{ active: idx === currentIndex }"
         :title="file.relative_path"
         @click="emit('select', idx)"
       >
-        <span class="file-dir" v-if="dirPrefix(file.relative_path)">
+        <span class="file-dir label-micro" v-if="dirPrefix(file.relative_path)">
           {{ dirPrefix(file.relative_path) }}
         </span>
         <span class="file-name">{{ file.name }}</span>
@@ -155,32 +155,21 @@ function formatSize(bytes: number): string {
 .file-list {
   flex: 1;
   padding: 0 var(--gap-2) var(--gap-4);
-}
-
-.file-item {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: var(--gap-1);
+}
+
+/* Tighter padding for the dense file list (overrides .list-item default 8x12) */
+.file-item {
   padding: 7px 10px;
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: background-color var(--t-fast), border-color var(--t-fast);
-  border: 0.5px solid transparent;
-  position: relative;
-}
-
-.file-item:hover {
-  background: var(--bg-hover);
-}
-
-.file-item.active {
-  background: var(--bg-block);
-  border-color: var(--border-medium);
+  gap: 2px;
 }
 
 .file-dir {
-  font-size: var(--text-xs);
+  font-size: var(--text-micro);
   color: var(--text-muted);
+  letter-spacing: 0.04em;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
