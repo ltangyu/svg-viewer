@@ -30,3 +30,7 @@ icon-candidates/
 # Transient QA screenshots
 test-svgs/_screenshot_*.png
 test-svgs/_shot_*.png
+
+# Portable build output (template files in `portable/` are tracked; assembled
+# binary folder + ZIP are not)
+dist-portable/

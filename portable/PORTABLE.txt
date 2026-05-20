@@ -1,0 +1,18 @@
+SVG Viewer · Portable Mode Marker
+=================================
+
+This empty file's PRESENCE next to `svg-viewer.exe` triggers portable mode.
+
+When portable mode is active:
+  • WebView2 stores all data (cache, localStorage, cookies, IndexedDB)
+    inside `./data/webview/` next to the .exe instead of
+    `%LOCALAPPDATA%\com.ii.svg-viewer\EBWebView`.
+  • The app touches NO system registry keys, NO user profile folders.
+  • You can move the whole portable folder anywhere (USB drive, network
+    share, another machine) and it carries your state with it.
+  • Removing the folder cleanly removes all app data.
+
+If you DELETE this file, the .exe falls back to the standard
+install-mode behaviour (data in %LOCALAPPDATA%).
+
+Keep this file in the same folder as svg-viewer.exe.
