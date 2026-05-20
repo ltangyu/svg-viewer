@@ -1,0 +1,96 @@
+name: Build macOS
+
+# Builds a universal macOS binary (Apple Silicon + Intel) and attaches the
+# DMG + zipped .app to the chosen GitHub release. Triggered manually or
+# automatically when a `v*` tag is pushed.
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag to attach artifacts to'
+        required: true
+        default: 'v0.1.0'
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Rust + universal targets
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin,x86_64-apple-darwin
+
+      - name: Cache Cargo build
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: 'src-tauri -> target'
+          key: macos-universal
+
+      - name: npm install
+        run: npm install
+
+      - name: Build universal-apple-darwin
+        run: npm run tauri build -- --target universal-apple-darwin
+
+      - name: Locate artifacts + assemble portable .app.zip
+        id: artifacts
+        run: |
+          set -e
+          BUNDLE_DIR="src-tauri/target/universal-apple-darwin/release/bundle"
+          DMG=$(ls "$BUNDLE_DIR/dmg/"*.dmg | head -1)
+          APP="$BUNDLE_DIR/macos/SVG Viewer.app"
+          OUT="dist-mac"
+          mkdir -p "$OUT"
+
+          # Friendly-named DMG
+          cp "$DMG" "$OUT/SVG-Viewer-0.1.0-mac-universal.dmg"
+
+          # Zipped .app (portable / drag-and-drop)
+          cd "$BUNDLE_DIR/macos"
+          ditto -c -k --keepParent "SVG Viewer.app" "../../../../../../$OUT/SVG-Viewer-0.1.0-mac-universal.app.zip"
+          cd -
+
+          ls -lh "$OUT"
+          echo "dmg=$OUT/SVG-Viewer-0.1.0-mac-universal.dmg"        >> "$GITHUB_OUTPUT"
+          echo "app_zip=$OUT/SVG-Viewer-0.1.0-mac-universal.app.zip" >> "$GITHUB_OUTPUT"
+
+      - name: Upload as workflow artifacts (always)
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-universal
+          path: |
+            ${{ steps.artifacts.outputs.dmg }}
+            ${{ steps.artifacts.outputs.app_zip }}
+
+      - name: Resolve target tag
+        id: tag
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "value=${{ github.event.inputs.tag }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=${GITHUB_REF##*/}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Attach to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.value }}
+          files: |
+            ${{ steps.artifacts.outputs.dmg }}
+            ${{ steps.artifacts.outputs.app_zip }}
+          fail_on_unmatched_files: true
